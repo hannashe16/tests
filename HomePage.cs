@@ -1,16 +1,19 @@
-﻿using OpenQA.Selenium;
+﻿using OnlinerTests;
+using OpenQA.Selenium;
 
 namespace DevByTests
 {
     public class HomePage : BasePage
-    {     
-        public HomePage(IWebDriver driver): base(driver)
-        { }
-        public void GoToLogin()
+    {
+        IWebElement _loginButtonOnHomeScreen = null;
+        public HomePage(IWebDriver driver, ILogger logger) : base(driver, logger)
         {
-            IWebElement element = null;
-            element = FindElementByXPath(XPaths.LOGIN_BUTTON_HOME_SCREEN_XPATH);
-            element?.Click();
+            _loginButtonOnHomeScreen = FindElementByXPath(XPaths.LOGIN_BUTTON_HOME_SCREEN_XPATH);
+        }
+        public LoginPage GoToLogin()
+        {
+            _loginButtonOnHomeScreen?.Click();
+            return new LoginPage(_driver, _logger);
         }
     }
 }

@@ -1,13 +1,16 @@
-﻿using OpenQA.Selenium;
+﻿using OnlinerTests;
+using OpenQA.Selenium;
 
 namespace DevByTests
 {
     public abstract class BasePage
     {
         protected IWebDriver _driver;
-        public BasePage(IWebDriver driver)
+        protected ILogger _logger;
+        public BasePage(IWebDriver driver, ILogger logger)
         {
             _driver = driver;
+            _logger = logger;
         }
 
         public IWebElement FindElementByXPath(string xPath)
@@ -23,7 +26,7 @@ namespace DevByTests
                 catch (Exception exp)
                 {
                     Thread.Sleep(1000);
-                    Console.WriteLine("Cannot find element, I'll try again");
+                    _logger.Log("Cant's find element");
                 }
                 if (element != null)
                     break;

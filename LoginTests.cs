@@ -1,5 +1,7 @@
+using OnlinerTests;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
 
 namespace DevByTests
 {
@@ -12,13 +14,13 @@ namespace DevByTests
         
         public void IsUserLoggedInWithValidUsernameAndPassword(string inputUsername, string inputPassword)
         {
-            WebDriver driver = new ChromeDriver();
+            IWebDriver driver = new ChromeDriver();
             driver.Url = "https://devby.io/";
             driver.Manage().Window.Maximize();
-            HomePage homePage = new HomePage(driver);
-            homePage.GoToLogin();
-            LoginPage usernameField = new LoginPage(driver);
-            usernameField.Login(inputUsername, inputPassword);          
+            ILogger logger = new FileLogger();
+            HomePage homePage = new HomePage(driver, logger);     
+            LoginPage loginPage = homePage.GoToLogin();
+            loginPage.Login(inputUsername, inputPassword);          
             Assert.IsNotNull(XPaths.NAV_BAR_USER_AVATAR);
             driver.Close();
         }
